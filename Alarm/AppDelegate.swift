@@ -46,6 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
     }
 
-
+    
+    
 }
 
+////////In the AppDelegate.swift file in the didFinishLaunchingWithOptions function, create an instance of UIUserNotificationSettings.
