@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListTableViewController: UITableViewController, SwitchTableViewCellDelegate {
+class ListTableViewController: UITableViewController, SwitchTableViewCellDelegate, AlarmScheduler {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,10 +60,15 @@ class ListTableViewController: UITableViewController, SwitchTableViewCellDelegat
         guard let indexPath = tableView.indexPathForCell(cell) else {return}
         let alarm = AlarmController.sharedInstance.alarms[indexPath.row]
         AlarmController.sharedInstance.toggleAlarm(alarm)
-        
+        if alarm.enabled {
+            scheduleLocalNotification(alarm)
+        } else {
+            cancelLocalNotification(alarm)
+        }
         
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
+    
     
             //SWITCH CELL SWITCH VALUE CHANGED FUNC : Local Notifications
 //        if alarm.enabled {

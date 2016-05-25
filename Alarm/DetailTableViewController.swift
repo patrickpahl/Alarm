@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailTableViewController: UITableViewController {
+class DetailTableViewController: UITableViewController, AlarmScheduler {
 
     var alarm: Alarm?
     

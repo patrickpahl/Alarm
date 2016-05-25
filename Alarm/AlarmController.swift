@@ -6,7 +6,8 @@
 //  Copyright © 2016 DevMountain. All rights reserved.
 //
 
-import Foundation
+
+import UIKit                                                            //Import UIkit for notifications
 
 class AlarmController {
     
@@ -74,20 +75,29 @@ protocol AlarmScheduler {
     func cancelLocalNotification(alarm: Alarm)
 }
 
-extension AlarmScheduler{
+
+
+extension AlarmScheduler {
     
     func scheduleLocalNotification(alarm: Alarm) {
-        let alert 
-        
+        let localNotification = UILocalNotification()               //create instance of UILocalNotification(), *** Remember to import UIKit
+        localNotification.alertTitle = "Time to wake up"            //use localnotification . alert title, which is built in to Swift
+        localNotification.alertBody = "Get back to work"
+        localNotification.fireDate = alarm.fireDate
+        localNotification.category = alarm.uuid                     //UUID is a type of *category
+        localNotification.repeatInterval = .Day                     //Repeats interval once a day
     }
     
-    
+    func cancelLocalNotification(alarm: Alarm){
+        guard let scheduledNotifications = UIApplication.sharedApplication().scheduledLocalNotifications else {return}          //guard, creates array of notifications
+        for notification in scheduledNotifications {                                                                            //loop through notifications
+            if notification.category == alarm.uuid {                                                                            //check if category equals uuid
+                UIApplication.sharedApplication().cancelLocalNotification(notification)                                         // cancel
+            }
+        }
+    }
 }
 
 
-/*
-Your scheduleLocalNotification(alarm: Alarm) function should create an instance of a UILocalNotification, give it an alert title, alert body, and fire date. You will also need to set it's category property to something unique (hint: the unique identifier we put on each alarm object is pretty unique). It should also be set to repeat at one day intervals. You will then need to schedule this local notification with the application's shared application.
-Your cancelLocalnotification(alarm: Alarm) function will need to get all of the application's scheduled notifications using UIApplication.sharedApplication.scheduledLocalNotifications. This will give you an array of local notifications. You can loop through them and cancel the local notifications whose category matches the alarm using UIApplication.sharedApplication.cancelLocalNotification(notification: notification).
-*/
 
 
